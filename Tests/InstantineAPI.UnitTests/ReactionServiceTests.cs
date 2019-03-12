@@ -30,10 +30,11 @@ namespace InstantineAPI.UnitTests
             var guid = Guid.NewGuid();
             A.CallTo(() => photoService.GetPhoto(photo.PhotoId)).Returns(photo);
             var reactionService = new ReactionServiceBuilder()
-                                        .WithGuid(guid)
                                         .WithPhotoService(photoService)
                                         .WithPermissionsService(new AllPermissionsGrantedService())
+                                        .WithGuid(guid)
                                         .Build();
+
             var comment = await reactionService.AddComment("1234", "albumId", "This photo rocks !", user);
             comment.Should().NotBeNull();
             comment.ReactionId.Should().Be(guid.ToString());
