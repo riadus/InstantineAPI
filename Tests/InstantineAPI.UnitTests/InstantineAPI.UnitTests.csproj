@@ -25,4 +25,7 @@
     <Folder Include="Builders\" />
     <Folder Include="Mock\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Builders\BaseBuilder.cs" />
+  </ItemGroup>
 </Project>

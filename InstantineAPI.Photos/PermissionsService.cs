@@ -16,7 +16,7 @@ namespace InstantineAPI.Photos
             _unitOfWork = unitOfWork;
         }
 
-        public Task<Album> GetAlbum(string albumId)
+        private Task<Album> GetAlbum(string albumId)
         {
             return _unitOfWork.Albums.GetFirst(x => x.AlbumId == albumId);
         }

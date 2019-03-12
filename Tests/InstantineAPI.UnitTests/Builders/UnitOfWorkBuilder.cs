@@ -25,11 +25,12 @@ namespace InstantineAPI.UnitTests.Builders
     {
         public IUnitOfWork Build()
         {
-            return new UnitOfWork(new PhotosRepository(new InstantineDbContextBuilder().Build()),
-                              new CommentsRepository(new InstantineDbContextBuilder().Build()),
-                              new LikesRepository(new InstantineDbContextBuilder().Build()),
-                              new UsersRepository(new InstantineDbContextBuilder().Build()),
-                              new AlbumRepository(new InstantineDbContextBuilder().Build()));
+            var dbContext = new InstantineDbContextBuilder().Build();
+            return new UnitOfWork(new PhotosRepository(dbContext),
+                              new CommentsRepository(dbContext),
+                              new LikesRepository(dbContext),
+                              new UsersRepository(dbContext),
+                              new AlbumRepository(dbContext));
         }
     }
 }
