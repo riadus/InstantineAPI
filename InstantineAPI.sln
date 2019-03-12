@@ -1,0 +1,71 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstantineAPI", "InstantineAPI\InstantineAPI.csproj", "{8EE4D7FB-6651-4F89-9123-EB9366993F77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstantineAPI.Core", "InstantineAPI.Core\InstantineAPI.Core.csproj", "{EA66032C-34A7-46B2-8A78-1DF1EABE4EBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstantineAPI.Data", "InstantineAPI.Data\InstantineAPI.Data.csproj", "{13232FC3-59DE-47DC-B024-76494E736E2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstantineAPI.Domain", "InstantineAPI.Domain\InstantineAPI.Domain.csproj", "{07EF34B6-7090-41CE-8FCA-6A6651260136}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstantineAPI.Database", "InstantineAPI.Database\InstantineAPI.Database.csproj", "{31E089DC-3502-4969-B762-835F50BD5116}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstantineAPI.Email", "InstantineAPI.Email\InstantineAPI.Email.csproj", "{0E5548D5-10FD-446F-AFB5-CE12D8F112D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstantineAPI.Photos", "InstantineAPI.Photos\InstantineAPI.Photos.csproj", "{13E9AD66-D930-4000-BA0D-3CB4E54AA122}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6FDC3329-6532-4F2D-BDA2-1FE90F211368}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstantineAPI.IntegrationTests", "InstantineAPI.IntegrationTests\InstantineAPI.IntegrationTests.csproj", "{42F52B5A-1C1D-4570-8289-33F8A208607C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstantineAPI.UnitTests", "Tests\InstantineAPI.UnitTests\InstantineAPI.UnitTests.csproj", "{B10DACBD-CF41-41B3-B7D1-F4E2B48E3223}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8EE4D7FB-6651-4F89-9123-EB9366993F77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EE4D7FB-6651-4F89-9123-EB9366993F77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EE4D7FB-6651-4F89-9123-EB9366993F77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EE4D7FB-6651-4F89-9123-EB9366993F77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA66032C-34A7-46B2-8A78-1DF1EABE4EBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA66032C-34A7-46B2-8A78-1DF1EABE4EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA66032C-34A7-46B2-8A78-1DF1EABE4EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA66032C-34A7-46B2-8A78-1DF1EABE4EBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13232FC3-59DE-47DC-B024-76494E736E2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13232FC3-59DE-47DC-B024-76494E736E2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13232FC3-59DE-47DC-B024-76494E736E2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13232FC3-59DE-47DC-B024-76494E736E2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07EF34B6-7090-41CE-8FCA-6A6651260136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07EF34B6-7090-41CE-8FCA-6A6651260136}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07EF34B6-7090-41CE-8FCA-6A6651260136}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07EF34B6-7090-41CE-8FCA-6A6651260136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31E089DC-3502-4969-B762-835F50BD5116}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31E089DC-3502-4969-B762-835F50BD5116}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31E089DC-3502-4969-B762-835F50BD5116}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31E089DC-3502-4969-B762-835F50BD5116}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E5548D5-10FD-446F-AFB5-CE12D8F112D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E5548D5-10FD-446F-AFB5-CE12D8F112D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E5548D5-10FD-446F-AFB5-CE12D8F112D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E5548D5-10FD-446F-AFB5-CE12D8F112D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13E9AD66-D930-4000-BA0D-3CB4E54AA122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13E9AD66-D930-4000-BA0D-3CB4E54AA122}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13E9AD66-D930-4000-BA0D-3CB4E54AA122}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13E9AD66-D930-4000-BA0D-3CB4E54AA122}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42F52B5A-1C1D-4570-8289-33F8A208607C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42F52B5A-1C1D-4570-8289-33F8A208607C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42F52B5A-1C1D-4570-8289-33F8A208607C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42F52B5A-1C1D-4570-8289-33F8A208607C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B10DACBD-CF41-41B3-B7D1-F4E2B48E3223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B10DACBD-CF41-41B3-B7D1-F4E2B48E3223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B10DACBD-CF41-41B3-B7D1-F4E2B48E3223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B10DACBD-CF41-41B3-B7D1-F4E2B48E3223}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{42F52B5A-1C1D-4570-8289-33F8A208607C} = {6FDC3329-6532-4F2D-BDA2-1FE90F211368}
+		{B10DACBD-CF41-41B3-B7D1-F4E2B48E3223} = {6FDC3329-6532-4F2D-BDA2-1FE90F211368}
+	EndGlobalSection
+EndGlobal

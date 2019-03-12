@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InstantineAPI.Data\InstantineAPI.Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Email\" />
+    <Folder Include="Domain\" />
+    <Folder Include="Photos\" />
+    <Folder Include="Database\" />
+  </ItemGroup>
+</Project>
