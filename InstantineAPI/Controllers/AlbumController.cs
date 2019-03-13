@@ -57,6 +57,7 @@ namespace InstantineAPI.Controllers
 
         [HttpPost]
         [Route("{albumId}/followers/{followerEmail}")]
+        [AuthorizeManager]
         public async Task<IActionResult> AddFollower([FromRoute]string albumId, [FromRoute]string followerEmail)
         {
             var requestor = await GetUser();
@@ -97,6 +98,7 @@ namespace InstantineAPI.Controllers
 
         [HttpPost]
         [Route("{albumId}/admins/{adminEmail}")]
+        [AuthorizeManager]
         public async Task<IActionResult> AddAdmin([FromRoute]string albumId, [FromRoute]string adminEmail)
         {
             var requestor = await GetUser();
@@ -110,7 +112,7 @@ namespace InstantineAPI.Controllers
 
         [HttpDelete]
         [Route("{albumId}/admins/{adminEmail}")]
-        public async Task<IActionResult> RemoveAdmin([FromRoute]string albumId, [FromRoute]string adminEmail)
+        public async Task<IActionResult> RemoeAdmin([FromRoute]string albumId, [FromRoute]string adminEmail)
         {
             var requestor = await GetUser();
             var admin = await GetUserByEmail(adminEmail);
