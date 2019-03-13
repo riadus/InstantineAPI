@@ -112,7 +112,7 @@ namespace InstantineAPI.Controllers
 
         [HttpDelete]
         [Route("{albumId}/admins/{adminEmail}")]
-        public async Task<IActionResult> RemoeAdmin([FromRoute]string albumId, [FromRoute]string adminEmail)
+        public async Task<IActionResult> RemoveAdmin([FromRoute]string albumId, [FromRoute]string adminEmail)
         {
             var requestor = await GetUser();
             var admin = await GetUserByEmail(adminEmail);
