@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using InstantineAPI.Core;
 using InstantineAPI.Core.Database;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -14,6 +15,7 @@ namespace InstantineAPI.IntegrationTests
     {
         public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
 
         protected TestServerFixture()
@@ -49,11 +51,12 @@ namespace InstantineAPI.IntegrationTests
         public async Task EnsureDatabaseEmpty()
         {
             var unitOfWork = Services.GetRequiredService<IUnitOfWork>();
+            var constants = Services.GetRequiredService<IConstants>();
             await unitOfWork.Likes.Delete(x => true);
             await unitOfWork.Comments.Delete(x => true);
             await unitOfWork.Photos.Delete(x => true);
             await unitOfWork.Albums.Delete(x => true);
-            await unitOfWork.Users.Delete(x => true);
+            await unitOfWork.Users.Delete(x => x.Email != constants.AdminEmail);
         }
 
         protected virtual void Dispose(bool disposing)

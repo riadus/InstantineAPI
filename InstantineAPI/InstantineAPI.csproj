@@ -29,8 +29,13 @@
     <Folder Include="AutoMapper\" />
     <Folder Include="Formatter\" />
     <Folder Include="Middelware\" />
+    <Folder Include="Middelware\Attributes\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Users.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Middelware\RolesAuthenticationHandler.cs" />
+    <Compile Remove="Controllers\RootController.cs" />
   </ItemGroup>
 </Project>

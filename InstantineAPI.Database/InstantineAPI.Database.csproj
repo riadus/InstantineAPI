@@ -26,6 +26,7 @@
     <Compile Remove="Migrations\20190309151338_Initial.cs" />
     <Compile Remove="Migrations\20190309152345_Initial.cs" />
     <Compile Remove="Migrations\20190309152752_Initial.cs" />
+    <Compile Remove="Migrations\20190310195952_Initial.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repositories\" />

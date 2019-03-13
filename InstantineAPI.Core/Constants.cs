@@ -1,11 +1,11 @@
 ﻿using System;
 namespace InstantineAPI.Core
 {
-    public static class Constants
+    public interface IConstants
     {
-        private static readonly string AppSettingsPrefix = "APPSETTING";
-
-        public static string EncryptionKeyKey => $"{AppSettingsPrefix}_EncryptionKey";
-        public static string EncryptionKey => Environment.GetEnvironmentVariable(EncryptionKeyKey);
+        string EncryptionKey { get; }
+        string AdminEmail { get; }
+        string AdminPwd { get; }
     }
+
 }

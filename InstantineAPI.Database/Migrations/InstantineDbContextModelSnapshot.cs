@@ -175,6 +175,8 @@ namespace InstantineAPI.Database.Migrations
 
                     b.Property<string>("LastName");
 
+                    b.Property<string>("Role");
+
                     b.Property<DateTime>("SendingDate");
 
                     b.Property<string>("UserId");

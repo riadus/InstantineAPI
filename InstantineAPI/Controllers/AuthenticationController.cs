@@ -16,8 +16,11 @@ namespace InstantineAPI.Controllers
     [Route("api/[controller]")]
     public class AuthenticationController : BaseController
     {
-        public AuthenticationController(IUserService userService) : base(userService)
+        private readonly IConstants _constants;
+
+        public AuthenticationController(IUserService userService, IConstants constants) : base(userService)
         {
+            _constants = constants;
         }
 
         [HttpGet]
@@ -35,10 +38,11 @@ namespace InstantineAPI.Controllers
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.UserId),
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Role, user.Role.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(10),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Constants.EncryptionKey)), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_constants.EncryptionKey)), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);

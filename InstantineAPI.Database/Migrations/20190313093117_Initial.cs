@@ -22,7 +22,8 @@ namespace InstantineAPI.Database.Migrations
                     SendingDate = table.Column<DateTime>(nullable: false),
                     AcceptingDate = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
-                    Code = table.Column<string>(nullable: true)
+                    Code = table.Column<string>(nullable: true),
+                    Role = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

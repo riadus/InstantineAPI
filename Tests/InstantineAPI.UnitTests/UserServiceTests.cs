@@ -31,7 +31,7 @@ namespace InstantineAPI.UnitTests
 
             var user = GetUser();
 
-            await userService.SubscribeUsers(new List<User> { user });
+            await userService.RegisterMembers(new List<User> { user });
             var savedUser = await unitOfWork.Users.GetFirst(x => x.Email == user.Email);
             savedUser.Should().NotBeNull();
             savedUser.FirstName.Should().Be(user.FirstName);
@@ -56,10 +56,10 @@ namespace InstantineAPI.UnitTests
             var user2 = new User { Email = "mail@mail.com", FirstName = "Jane", LastName = "Doe" };
             var users = await unitOfWork.Users.GetAll();
             users.Count().Should().Be(0);
-            await userService.SubscribeUsers(new List<User> { user });
+            await userService.RegisterMembers(new List<User> { user });
             users = await unitOfWork.Users.GetAll();
             users.Count().Should().Be(1);
-            await userService.SubscribeUsers(new List<User> { user2 });
+            await userService.RegisterMembers(new List<User> { user2 });
             users = await unitOfWork.Users.GetAll();
             users.Count().Should().Be(1);
         }

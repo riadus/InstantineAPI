@@ -7,7 +7,10 @@ namespace InstantineAPI.Core.Domain
 {
     public interface IUserService
     {
-        Task SubscribeUsers(IEnumerable<User> users);
+        Task RegisterDefaultAdmin();
+        Task RegisterAdmin(User admin);
+        Task RegisterManager(User manager);
+        Task RegisterMembers(IEnumerable<User> members);
         Task SendEmailToUsers();
         Task SendAgainEmailToUsers();
         Task AcceptInvitation(string code);

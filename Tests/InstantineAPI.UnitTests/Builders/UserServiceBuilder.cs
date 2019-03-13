@@ -1,5 +1,6 @@
 ﻿using System;
 using FakeItEasy;
+using InstantineAPI.Core;
 using InstantineAPI.Core.Database;
 using InstantineAPI.Core.Domain;
 using InstantineAPI.Domain;
@@ -17,7 +18,7 @@ namespace InstantineAPI.UnitTests.Builders
         public IUserService Build()
         {
             _unitOfWork = _unitOfWork ?? new UnitOfWorkBuilder().Build();
-            return new UserService(_unitOfWork, _emailService, new Clock(() => _utcNow), new GuidGenerator(() => _guid), _codeGenerator);
+            return new UserService(_unitOfWork, _emailService, new Clock(() => _utcNow), new GuidGenerator(() => _guid), A.Fake<IConstants>(), _codeGenerator);
         }
 
         public UserServiceBuilder WithUnitOfWork(IUnitOfWork unitOfWork)

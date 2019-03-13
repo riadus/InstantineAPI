@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using InstantineAPI.Core;
 using InstantineAPI.Core.Database;
 using InstantineAPI.Core.Domain;
 using InstantineAPI.Data;
@@ -13,30 +13,35 @@ namespace InstantineAPI.Domain
         private readonly IEmailService _emailService;
         private readonly IClock _clock;
         private readonly IGuid _guid;
+        private readonly IConstants _constants;
         private readonly ICodeGenerator _codeGenerator;
 
         public UserService(IUnitOfWork unitOfWork,
                            IEmailService emailService,
                            IClock clock,
                            IGuid guid,
+                           IConstants constants,
                            ICodeGenerator codeGenerator)
         {
             _unitOfWork = unitOfWork;
             _emailService = emailService;
             _clock = clock;
             _guid = guid;
+            _constants = constants;
             _codeGenerator = codeGenerator;
         }
 
-        public async Task SubscribeUsers(IEnumerable<User> users)
+        public async Task RegisterMembers(IEnumerable<User> members)
         {
-            foreach (var user in users)
+            foreach (var member in members)
             {
-                await SubscribeUser(user);
+                member.Code = _codeGenerator.GenerateRandomCode();
+                member.Role = UserRole.Member;
+                await SaveUser(member);
             }
         }
 
-        private async Task SubscribeUser(User user)
+        private async Task SaveUser(User user)
         {
             if(await _unitOfWork.Users.Any(x => x.Email == user.Email))
             {
@@ -44,7 +49,7 @@ namespace InstantineAPI.Domain
             }
             user.UserId = _guid.NewGuid().ToString();
             user.CreationDate = _clock.UtcNow;
-            user.Code = _codeGenerator.GenerateRandomCode();
+
             await _unitOfWork.Users.Add(user);
         }
 
@@ -98,6 +103,32 @@ namespace InstantineAPI.Domain
         public Task<User> Authenticate(string email, string password)
         {
             return _unitOfWork.Users.GetFirst(x => x.Email == email && x.Code == password);   
+        }
+
+        public Task RegisterAdmin(User admin)
+        {
+            admin.Role = UserRole.Admin;
+            admin.Code = _codeGenerator.GenerateRandomCode();
+            return SaveUser(admin);
+        }
+
+        public Task RegisterManager(User manager)
+        {
+            manager.Role = UserRole.Manager;
+            manager.Code = _codeGenerator.GenerateRandomCode();
+            return SaveUser(manager);
+        }
+
+        public Task RegisterDefaultAdmin()
+        {
+            var admin = new User
+            {
+                FirstName = "Admin",
+                Email = _constants.AdminEmail,
+                Code = _constants.AdminPwd,
+                Role = UserRole.Admin
+            };
+            return SaveUser(admin);
         }
     }
 }

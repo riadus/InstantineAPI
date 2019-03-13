@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using InstantineAPI.Controllers.Dtos;
 using InstantineAPI.Core.Domain;
 using InstantineAPI.Data;
+using InstantineAPI.Middelware.Attributes;
 
 namespace InstantineAPI.Controllers
 {
     [Route("api/users")]
+    [AuthorizeAdminOnly]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -22,8 +24,8 @@ namespace InstantineAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateUsers([FromBody]List<UserDto> usersDto)
+        [HttpPost("members")]
+        public async Task<IActionResult> CreateMember([FromBody]List<UserDto> usersDto)
         {
             if (!ModelState.IsValid)
             {
@@ -32,7 +34,21 @@ namespace InstantineAPI.Controllers
             else
             {
                 var users = usersDto.Select(userDto => _mapper.Map<User>(userDto));
-                await _userService.SubscribeUsers(users);
+                await _userService.RegisterMembers(users);
+                return Ok();
+            }
+        }
+
+        [HttpPost("manager")]
+        public async Task<IActionResult> CreateManager([FromBody]UserDto userDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            else
+            {
+                await _userService.RegisterManager(_mapper.Map<User>(userDto));
                 return Ok();
             }
         }

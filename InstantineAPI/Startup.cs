@@ -54,19 +54,25 @@ namespace InstantineAPI
 
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+            var appSettings = appSettingsSection.Get<AppSettings>();
+
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(x =>
+            .AddJwtBearer(
+                x =>
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Constants.EncryptionKey)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettings.Secret)),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
@@ -132,6 +138,7 @@ namespace InstantineAPI
             services.AddSingleton<IFtpService, FtpService>();
             services.AddTransient<IReactionService, ReactionService>();
             services.AddTransient<IAlbumService, AlbumService>();
+            services.AddTransient<IConstants, Constants>();
             services.AddTransient<IPermissionsService, PermissionsService>();
             services.AddTransient<IClock>(x => new Clock(() => DateTime.UtcNow));
             services.AddTransient<IGuid>(x => new GuidGenerator(Guid.NewGuid));
@@ -140,7 +147,7 @@ namespace InstantineAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, IUserService userService)
         {
             if (env.IsDevelopment())
             {
@@ -162,6 +169,8 @@ namespace InstantineAPI
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
+
+            await userService.RegisterDefaultAdmin();
         }
     }
 
