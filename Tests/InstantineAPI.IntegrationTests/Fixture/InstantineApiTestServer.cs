@@ -1,4 +1,6 @@
-﻿using InstantineAPI.Database;
+﻿using InstantineAPI.Core;
+using InstantineAPI.Database;
+using InstantineAPI.IntegrationTests.Mock;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Data.Sqlite;
@@ -11,7 +13,11 @@ namespace InstantineAPI.IntegrationTests
     {
         protected override TestServer CreateServer(IWebHostBuilder builder)
         {
-            return base.CreateServer(builder);
+            return base.CreateServer(builder.ConfigureTestServices(services =>
+            {
+                services.AddSingleton<IConstants, MockConstants>();
+            }));
         }
     }
 }
+

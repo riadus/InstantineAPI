@@ -15,23 +15,7 @@ namespace InstantineAPI.IntegrationTests
         {
         }
 
-        [Fact, Order(0)]
-        public async Task Setup()
-        {
-            await _fixture.EnsureDatabaseEmpty();
-        }
-
         [Theory, Order(1)]
-        [InlineData("jean@paris.fr", "Jean", "Le Jeune")]
-        [InlineData("jan@amsterdam.nl", "Jan", "de Jong")]
-        [InlineData("giovani@roma.it", "Giovanni", "Il Giovane")]
-        [InlineData("yahia@algiers.dz", "Yahia", "Elchab")]
-        public async Task SubscribeUsers(string email, string firstName, string lastName)
-        {
-            await SetupUserSubscription(email, firstName, lastName);
-        }
-
-        [Theory, Order(2)]
         [InlineData("jean@paris.fr", "Paris")]
         [InlineData("jean@paris.fr", "Plage")]
         [InlineData("jan@amsterdam.nl", "Amsterdam")]
@@ -55,7 +39,7 @@ namespace InstantineAPI.IntegrationTests
         }
 
 
-        [Theory, Order(3)]
+        [Theory, Order(2)]
         [InlineData("jean@paris.fr", "jan@amsterdam.nl", "Amsterdam")]
         [InlineData("jean@paris.fr", "giovani@roma.it", "Strand")]
         [InlineData("jan@amsterdam.nl", "giovani@roma.it", "Roma")]
@@ -69,12 +53,11 @@ namespace InstantineAPI.IntegrationTests
             var unitOfWork = _fixture.Services.GetRequiredService<IUnitOfWork>();
             var album = await unitOfWork.Albums.GetFirst(x => x.Name == AlbumName);
 
-            var requestor = await GetUserFromEmail(requestorEmail);
             var postResponse = await PostAsync(requestorEmail, $"api/album/{album.AlbumId}/followers/{followerEmail}", new ObjectContent<object>(null, _mediaTypeFormatter));
             Assert.False(postResponse.IsSuccessStatusCode);
         }
 
-        [Theory, Order(4)]
+        [Theory, Order(3)]
         [InlineData("jean@paris.fr", "jan@amsterdam.nl", "Paris")]
         [InlineData("jean@paris.fr", "giovani@roma.it", "Plage")]
         [InlineData("jan@amsterdam.nl", "giovani@roma.it", "Amsterdam")]
@@ -88,12 +71,11 @@ namespace InstantineAPI.IntegrationTests
             var unitOfWork = _fixture.Services.GetRequiredService<IUnitOfWork>();
             var album = await unitOfWork.Albums.GetFirst(x => x.Name == AlbumName);
 
-            var requestor = await GetUserFromEmail(requestorEmail);
             var postResponse = await PostAsync(requestorEmail, $"api/album/{album.AlbumId}/followers/{followerEmail}", new ObjectContent<object>(null, _mediaTypeFormatter));
             postResponse.EnsureSuccessStatusCode();
         }
 
-        [Theory, Order(5)]
+        [Theory, Order(4)]
         [InlineData("yahia@algiers.dz", "giovani@roma.it", "Plage")]
         [InlineData("giovani@roma.it", "yahia@algiers.dz", "Strand")]
         [InlineData("jan@amsterdam.nl", "jean@paris.fr", "Spiaggia")]
@@ -103,12 +85,11 @@ namespace InstantineAPI.IntegrationTests
             var unitOfWork = _fixture.Services.GetRequiredService<IUnitOfWork>();
             var album = await unitOfWork.Albums.GetFirst(x => x.Name == AlbumName);
 
-            var requestor = await GetUserFromEmail(requestorEmail);
             var deleteResponse = await DeleteAsync(requestorEmail, $"api/album/{album.AlbumId}/followers/{followerEmail}");
             Assert.False(deleteResponse.IsSuccessStatusCode);
         }
 
-        [Theory, Order(6)]
+        [Theory, Order(5)]
         [InlineData("jean@paris.fr", "giovani@roma.it", "Plage")]
         [InlineData("jan@amsterdam.nl", "yahia@algiers.dz", "Strand")]
         public async Task RemoveFollower_ByAdmin(string requestorEmail, string followerEmail, string AlbumName)
@@ -116,12 +97,11 @@ namespace InstantineAPI.IntegrationTests
             var unitOfWork = _fixture.Services.GetRequiredService<IUnitOfWork>();
             var album = await unitOfWork.Albums.GetFirst(x => x.Name == AlbumName);
 
-            var requestor = await GetUserFromEmail(requestorEmail);
             var deleteResponse = await DeleteAsync(requestorEmail, $"api/album/{album.AlbumId}/followers/{followerEmail}");
             deleteResponse.EnsureSuccessStatusCode();
         }
 
-        [Theory, Order(7)]
+        [Theory, Order(6)]
         [InlineData("jean@paris.fr", "jean@paris.fr", "Spiaggia")]
         [InlineData("jan@amsterdam.nl", "jan@amsterdam.nl", "Chett")]
         public async Task RemoveFollower_BySelf(string requestorEmail, string followerEmail, string AlbumName)
@@ -129,12 +109,11 @@ namespace InstantineAPI.IntegrationTests
             var unitOfWork = _fixture.Services.GetRequiredService<IUnitOfWork>();
             var album = await unitOfWork.Albums.GetFirst(x => x.Name == AlbumName);
 
-            var requestor = await GetUserFromEmail(requestorEmail);
             var deleteResponse = await DeleteAsync(requestorEmail, $"api/album/{album.AlbumId}/followers/{followerEmail}");
             deleteResponse.EnsureSuccessStatusCode();
         }
 
-        [Theory, Order(8)]
+        [Theory, Order(7)]
         [InlineData("jean@paris.fr", "jan@amsterdam.nl", "Paris")]
         [InlineData("jean@paris.fr", "giovani@roma.it", "Plage")]
         [InlineData("jan@amsterdam.nl", "giovani@roma.it", "Amsterdam")]
@@ -148,12 +127,11 @@ namespace InstantineAPI.IntegrationTests
             var unitOfWork = _fixture.Services.GetRequiredService<IUnitOfWork>();
             var album = await unitOfWork.Albums.GetFirst(x => x.Name == AlbumName);
 
-            var requestor = await GetUserFromEmail(requestorEmail);
             var postResponse = await PostAsync(requestorEmail, $"api/album/{album.AlbumId}/admins/{followerEmail}", new ObjectContent<object>(null, _mediaTypeFormatter));
             postResponse.EnsureSuccessStatusCode();
         }
 
-        [Theory, Order(9)]
+        [Theory, Order(8)]
         [InlineData("yahia@algiers.dz", "giovani@roma.it", "Plage")]
         [InlineData("giovani@roma.it", "yahia@algiers.dz", "Strand")]
         [InlineData("jan@amsterdam.nl", "jean@paris.fr", "Spiaggia")]
@@ -163,12 +141,11 @@ namespace InstantineAPI.IntegrationTests
             var unitOfWork = _fixture.Services.GetRequiredService<IUnitOfWork>();
             var album = await unitOfWork.Albums.GetFirst(x => x.Name == AlbumName);
 
-            var requestor = await GetUserFromEmail(requestorEmail);
             var deleteResponse = await DeleteAsync(requestorEmail, $"api/album/{album.AlbumId}/admins/{followerEmail}");
             Assert.False(deleteResponse.IsSuccessStatusCode);
         }
 
-        [Theory, Order(10)]
+        [Theory, Order(9)]
         [InlineData("jean@paris.fr", "giovani@roma.it", "Plage")]
         [InlineData("jan@amsterdam.nl", "yahia@algiers.dz", "Strand")]
         public async Task RemoveAdmin_ByAdmin(string requestorEmail, string followerEmail, string AlbumName)
@@ -176,12 +153,11 @@ namespace InstantineAPI.IntegrationTests
             var unitOfWork = _fixture.Services.GetRequiredService<IUnitOfWork>();
             var album = await unitOfWork.Albums.GetFirst(x => x.Name == AlbumName);
 
-            var requestor = await GetUserFromEmail(requestorEmail);
             var deleteResponse = await DeleteAsync(requestorEmail, $"api/album/{album.AlbumId}/admins/{followerEmail}");
             deleteResponse.EnsureSuccessStatusCode();
         }
 
-        [Theory, Order(11)]
+        [Theory, Order(10)]
         [InlineData("jean@paris.fr", "jean@paris.fr", "Spiaggia")]
         [InlineData("jan@amsterdam.nl", "jan@amsterdam.nl", "Chett")]
         [InlineData("jan@amsterdam.nl", "jan@amsterdam.nl", "Paris")]
@@ -190,7 +166,6 @@ namespace InstantineAPI.IntegrationTests
             var unitOfWork = _fixture.Services.GetRequiredService<IUnitOfWork>();
             var album = await unitOfWork.Albums.GetFirst(x => x.Name == AlbumName);
 
-            var requestor = await GetUserFromEmail(requestorEmail);
             var deleteResponse = await DeleteAsync(requestorEmail, $"api/album/{album.AlbumId}/admins/{followerEmail}");
             deleteResponse.EnsureSuccessStatusCode();
         }

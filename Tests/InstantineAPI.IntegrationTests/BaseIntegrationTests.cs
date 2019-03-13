@@ -17,7 +17,6 @@ namespace InstantineAPI.IntegrationTests
         {
             _fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
             _mediaTypeFormatter = new JsonMediaTypeFormatter();
-            Environment.SetEnvironmentVariable("APPSETTING_EncryptionKey", "ThisIsAVeryLongStringThatShouldEncode");
         }
 
         protected readonly JsonMediaTypeFormatter _mediaTypeFormatter;
@@ -33,7 +32,7 @@ namespace InstantineAPI.IntegrationTests
         {
             var userService = _fixture.Services.GetRequiredService<IUserService>();
             var user = new User { Email = email, FirstName = firstName, LastName = lastName };
-            await userService.SubscribeUsers(new List<User> { user });
+            await userService.RegisterMembers(new List<User> { user });
         }
 
         protected Task<Album> GetAlbum(string name)

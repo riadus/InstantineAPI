@@ -6,6 +6,7 @@ using InstantineAPI.Controllers.Dtos;
 using InstantineAPI.Core.Domain;
 using InstantineAPI.Core.Photos;
 using Microsoft.AspNetCore.Authorization;
+using InstantineAPI.Middelware.Attributes;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -37,6 +38,7 @@ namespace InstantineAPI.Controllers
         }
 
         [HttpPost]
+        [AuthorizeManager]
         public async Task<IActionResult> CreateAlbum([FromBody]AlbumDto albumDto)
         {
             var requestor = await GetUser();

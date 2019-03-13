@@ -5,15 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InstantineAPI\InstantineAPI.csproj" />
-    <ProjectReference Include="..\InstantineAPI.Core\InstantineAPI.Core.csproj" />
-    <ProjectReference Include="..\InstantineAPI.Data\InstantineAPI.Data.csproj" />
-    <ProjectReference Include="..\InstantineAPI.Database\InstantineAPI.Database.csproj" />
-    <ProjectReference Include="..\InstantineAPI.Domain\InstantineAPI.Domain.csproj" />
-    <ProjectReference Include="..\InstantineAPI.Email\InstantineAPI.Email.csproj" />
-    <ProjectReference Include="..\InstantineAPI.Photos\InstantineAPI.Photos.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="RichardSzalay.MockHttp" Version="5.0.0" />
@@ -28,10 +19,30 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Fixture\" />
     <Folder Include="Configuration\" />
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\InstantineAPI\InstantineAPI.csproj" />
+    <ProjectReference Include="..\..\InstantineAPI.Core\InstantineAPI.Core.csproj" />
+    <ProjectReference Include="..\..\InstantineAPI.Data\InstantineAPI.Data.csproj" />
+    <ProjectReference Include="..\..\InstantineAPI.Database\InstantineAPI.Database.csproj" />
+    <ProjectReference Include="..\..\InstantineAPI.Domain\InstantineAPI.Domain.csproj" />
+    <ProjectReference Include="..\..\InstantineAPI.Email\InstantineAPI.Email.csproj" />
+    <ProjectReference Include="..\..\InstantineAPI.Photos\InstantineAPI.Photos.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

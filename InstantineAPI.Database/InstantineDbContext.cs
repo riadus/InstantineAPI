@@ -10,6 +10,7 @@ namespace InstantineAPI.Database
         {
             Database.Migrate();
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AlbumAdmin>()

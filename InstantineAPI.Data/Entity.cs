@@ -72,6 +72,13 @@ namespace InstantineAPI.Data
         }
     }
 
+    public enum UserRole
+    {
+        Member,
+        Admin,
+        Manager
+    }
+
     public class User : Entity
     {
         public string Email { get; set; }
@@ -85,6 +92,7 @@ namespace InstantineAPI.Data
         public string UserId { get; set; }
         [JsonIgnore]
         public string Code { get; set; }
+        public UserRole Role { get; set; }
 
         public override bool Equals(object obj)
         {
