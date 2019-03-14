@@ -2,7 +2,6 @@
 {
     public interface ICodeGenerator
     {
-        string GenerateRandomCode();
-        byte[] GenrateImageFromCode(string code);
+        byte[] GenerateImageFromCode(string code);
     }
 }

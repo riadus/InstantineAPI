@@ -1,10 +1,10 @@
 ﻿using InstantineAPI.Core;
+using InstantineAPI.Core.Database;
+using InstantineAPI.Core.Domain;
 using InstantineAPI.Database;
 using InstantineAPI.IntegrationTests.Mock;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InstantineAPI.IntegrationTests
@@ -16,6 +16,7 @@ namespace InstantineAPI.IntegrationTests
             return base.CreateServer(builder.ConfigureTestServices(services =>
             {
                 services.AddSingleton<IConstants, MockConstants>();
+                services.AddSingleton<IRandomStringGenerator, FixedStringGenerator>();
             }));
         }
     }

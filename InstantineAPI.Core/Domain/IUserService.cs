@@ -17,5 +17,6 @@ namespace InstantineAPI.Core.Domain
         Task<User> GetUserFromId(string userId);
         Task<User> GetUserFromEmail(string userId);
         Task<User> Authenticate(string email, string code);
+        Task ChangeUser(User user, UserChangeRequest userChangeRequest);
     }
 }

@@ -9,7 +9,7 @@ using Xunit;
 
 namespace InstantineAPI.IntegrationTests
 {
-    [Order(2)]
+    [Order(3)]
     public class AlbumIntegrationTests : BaseIntegrationTests
     {
         public AlbumIntegrationTests(InstantineApiTestServer fixture) : base(fixture)

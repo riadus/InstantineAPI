@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InstantineAPI.Database.Migrations
 {
     [DbContext(typeof(InstantineDbContext))]
-    [Migration("20190313093117_Initial")]
+    [Migration("20190314085325_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -163,8 +163,6 @@ namespace InstantineAPI.Database.Migrations
 
                     b.Property<DateTime>("AcceptingDate");
 
-                    b.Property<string>("Code");
-
                     b.Property<DateTime>("CreationDate");
 
                     b.Property<string>("Email");
@@ -177,7 +175,11 @@ namespace InstantineAPI.Database.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("Role");
+                    b.Property<string>("Password");
+
+                    b.Property<string>("PasswordSalt");
+
+                    b.Property<int>("Role");
 
                     b.Property<DateTime>("SendingDate");
 

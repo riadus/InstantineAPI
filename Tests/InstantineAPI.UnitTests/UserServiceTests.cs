@@ -20,13 +20,13 @@ namespace InstantineAPI.UnitTests
         {
             var unitOfWork = new UnitOfWorkBuilder().Build();
 
-            var codeGenerator = A.Fake<ICodeGenerator>();
-            A.CallTo(() => codeGenerator.GenerateRandomCode()).Returns("GeneratedCode");
+            var passwordService = A.Fake<IPasswordService>();
+            A.CallTo(() => passwordService.GenerateRandomPassword()).Returns(("hash", "salt"));
 
             var dateTime = DateTime.UtcNow;
             var userService = new UserServiceBuilder().WithUnitOfWork(unitOfWork)
                             .WithDateTime(dateTime)
-                            .WithCodeGenerator(codeGenerator)
+                            .WithPasswordService(passwordService)
                             .Build();
 
             var user = GetUser();
@@ -36,7 +36,8 @@ namespace InstantineAPI.UnitTests
             savedUser.Should().NotBeNull();
             savedUser.FirstName.Should().Be(user.FirstName);
             savedUser.LastName.Should().Be(user.LastName);
-            savedUser.Code.Should().Be("GeneratedCode");
+            savedUser.Password.Should().Be("hash");
+            savedUser.PasswordSalt.Should().Be("salt");
             savedUser.CreationDate.Should().Be(dateTime);
         }
 
@@ -45,11 +46,11 @@ namespace InstantineAPI.UnitTests
         {
             var unitOfWork = new UnitOfWorkBuilder().Build();
 
-            var codeGenerator = A.Fake<ICodeGenerator>();
-            A.CallTo(() => codeGenerator.GenerateRandomCode()).Returns("GeneratedCode");
+            var passwordService = A.Fake<IPasswordService>();
+            A.CallTo(() => passwordService.GenerateRandomPassword()).Returns(("hash", "salt"));
 
             var userService = new UserServiceBuilder().WithUnitOfWork(unitOfWork)
-                            .WithCodeGenerator(codeGenerator)
+                            .WithPasswordService(passwordService)
                             .Build();
 
             var user = new User { Email = "mail@mail.com", FirstName = "John", LastName = "Doe" };
@@ -72,7 +73,7 @@ namespace InstantineAPI.UnitTests
             var userService = new UserServiceBuilder().WithUnitOfWork(unitOfWork)
                             .Build();
             var user = GetUser();
-            user.Code = "code";
+            user.Password = "code";
             user.UserId = "userId";
 
             await unitOfWork.Users.Add(user);
@@ -80,7 +81,7 @@ namespace InstantineAPI.UnitTests
 
             var savedUser = await userService.GetUserFromId("userId");
             savedUser.Should().NotBeNull();
-            savedUser.Code.Should().Be("code");
+            savedUser.Password.Should().Be("code");
             savedUser.UserId.Should().Be("userId");
         }
 
@@ -92,14 +93,14 @@ namespace InstantineAPI.UnitTests
             var userService = new UserServiceBuilder().WithUnitOfWork(unitOfWork)
                             .Build();
             var user = GetUser();
-            user.Code = "code";
+            user.Password = "code";
             user.UserId = "userId";
 
             await unitOfWork.Users.Add(user);
 
             var savedUser = await userService.GetUserFromEmail(user.Email);
             savedUser.Should().NotBeNull();
-            savedUser.Code.Should().Be("code");
+            savedUser.Password.Should().Be("code");
             savedUser.UserId.Should().Be("userId");
         }
 
@@ -114,11 +115,12 @@ namespace InstantineAPI.UnitTests
                             .Build();
 
             var user = GetUser();
+            user.Password = "pwd";
             user.InvitationSent = false;
             await unitOfWork.Users.Add(user);
 
             await userService.SendEmailToUsers();
-            A.CallTo(() => emailService.SendAccountCreationEmail(user, A<byte[]>.Ignored)).MustHaveHappened();
+            A.CallTo(() => emailService.SendAccountCreationEmail(user, "pwd")).MustHaveHappened();
         }
 
         [Fact]
@@ -133,10 +135,11 @@ namespace InstantineAPI.UnitTests
 
             var user = GetUser();
             user.InvitationSent = true;
+            user.Password = "pwd";
             await unitOfWork.Users.Add(user);
 
             await userService.SendEmailToUsers();
-            A.CallTo(() => emailService.SendAccountCreationEmail(user, A<byte[]>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => emailService.SendAccountCreationEmail(user, "pwd")).MustNotHaveHappened();
         }
 
         [Fact]
@@ -151,10 +154,11 @@ namespace InstantineAPI.UnitTests
 
             var user = GetUser();
             user.InvitationSent = false;
+            user.Password = "pwd";
             await unitOfWork.Users.Add(user);
 
             await userService.SendAgainEmailToUsers();
-            A.CallTo(() => emailService.SendAccountCreationEmail(user, A<byte[]>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => emailService.SendAccountCreationEmail(user, "pwd")).MustNotHaveHappened();
         }
 
         [Fact]
@@ -169,10 +173,11 @@ namespace InstantineAPI.UnitTests
 
             var user = GetUser();
             user.InvitationSent = true;
+            user.Password = "pwd";
             await unitOfWork.Users.Add(user);
 
             await userService.SendAgainEmailToUsers();
-            A.CallTo(() => emailService.SendAccountCreationEmail(user, A<byte[]>.Ignored)).MustHaveHappened();
+            A.CallTo(() => emailService.SendAccountCreationEmail(user, "pwd")).MustHaveHappened();
         }
 
         [Fact]
@@ -188,10 +193,11 @@ namespace InstantineAPI.UnitTests
             var user = GetUser();
             user.InvitationSent = true;
             user.InvitationAccepted = true;
+            user.Password = "pwd";
             await unitOfWork.Users.Add(user);
 
             await userService.SendAgainEmailToUsers();
-            A.CallTo(() => emailService.SendAccountCreationEmail(user, A<byte[]>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => emailService.SendAccountCreationEmail(user, "pwd")).MustNotHaveHappened();
         }
 
         [Fact]
@@ -224,7 +230,7 @@ namespace InstantineAPI.UnitTests
                                 .WithUnitOfWork(unitOfWork)
                             .Build();
             var user = GetUser();
-            user.Code = "code";
+            user.Password = "code";
             await unitOfWork.Users.Add(user);
 
             await userService.AcceptInvitation("code");

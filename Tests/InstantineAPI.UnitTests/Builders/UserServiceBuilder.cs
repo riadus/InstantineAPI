@@ -11,14 +11,14 @@ namespace InstantineAPI.UnitTests.Builders
     {
         private IUnitOfWork _unitOfWork;
         private IEmailService _emailService = A.Dummy<IEmailService>();
-        private ICodeGenerator _codeGenerator = A.Dummy<ICodeGenerator>();
+        private IPasswordService _passwordService = A.Dummy<IPasswordService>();
         private DateTime _utcNow = DateTime.UtcNow;
         private Guid _guid = Guid.NewGuid();
 
         public IUserService Build()
         {
             _unitOfWork = _unitOfWork ?? new UnitOfWorkBuilder().Build();
-            return new UserService(_unitOfWork, _emailService, new Clock(() => _utcNow), new GuidGenerator(() => _guid), A.Fake<IConstants>(), _codeGenerator);
+            return new UserService(_unitOfWork, _emailService, new Clock(() => _utcNow), new GuidGenerator(() => _guid), A.Fake<IConstants>(), _passwordService, A.Fake<IEncryptionService>());
         }
 
         public UserServiceBuilder WithUnitOfWork(IUnitOfWork unitOfWork)
@@ -33,9 +33,9 @@ namespace InstantineAPI.UnitTests.Builders
             return this;
         }
 
-        public UserServiceBuilder WithCodeGenerator(ICodeGenerator codeGenerator)
+        public UserServiceBuilder WithPasswordService(IPasswordService passwordService)
         {
-            _codeGenerator = codeGenerator;
+            _passwordService = passwordService;
             return this;
         }
 

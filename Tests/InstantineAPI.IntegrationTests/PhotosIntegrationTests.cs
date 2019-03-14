@@ -1,16 +1,14 @@
-﻿using InstantineAPI.Controllers.Dtos;
+﻿using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using FluentAssertions;
+using InstantineAPI.Controllers.Dtos;
 using InstantineAPI.IntegrationTests.Configuration;
 using Xunit;
-using System.Net.Http;
-using System.Net;
-using InstantineAPI.Data;
-using System.Linq;
-using FluentAssertions;
 
 namespace InstantineAPI.IntegrationTests
 {
-    [Order(3)]
+    [Order(4)]
     public class PhotosIntegrationTests : BaseIntegrationTests
     {
         public PhotosIntegrationTests(InstantineApiTestServer fixture) : base(fixture)

@@ -9,6 +9,8 @@ namespace InstantineAPI.AutoMapper
         public DtoMappingProfile()
         {
             CreateMap<UserDto, User>();
+            CreateMap<UserDto, UserChangeRequest>()
+                .ConvertUsing<UserChangeRequestConveter>();
         }
     }
 }

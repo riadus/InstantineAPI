@@ -22,8 +22,9 @@ namespace InstantineAPI.Database.Migrations
                     SendingDate = table.Column<DateTime>(nullable: false),
                     AcceptingDate = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
-                    Code = table.Column<string>(nullable: true),
-                    Role = table.Column<string>(nullable: true)
+                    Password = table.Column<string>(nullable: true),
+                    PasswordSalt = table.Column<string>(nullable: true),
+                    Role = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -11,7 +11,7 @@ namespace InstantineAPI.Controllers
 {
     public abstract class BaseController : Controller
     {
-        private readonly IUserService _userService;
+        protected readonly IUserService _userService;
 
         protected BaseController(IUserService userService)
         {

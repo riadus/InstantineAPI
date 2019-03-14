@@ -12,10 +12,10 @@ using Xunit;
 
 namespace InstantineAPI.IntegrationTests
 {
-    [Order(1)]
-    public class UsersIntegrationTests : BaseIntegrationTests
+    [Order(2)]
+    public class AdministrationIntegrationTests : BaseIntegrationTests
     {
-        public UsersIntegrationTests(InstantineApiTestServer fixture) : base(fixture)
+        public AdministrationIntegrationTests(InstantineApiTestServer fixture) : base(fixture)
         {
 
         }
@@ -27,7 +27,7 @@ namespace InstantineAPI.IntegrationTests
         }
 
         [Theory, Order(2)]
-        [InlineData("yahia@algiers.dz", "Yahia", "Elchab")]
+        [InlineData("yahia@algiers.dz", "Yahia", "Ecchab")]
         [InlineData("jan@amsterdam.nl", "Jan", "de Jong")]
         public async Task RegisterManagers(string email, string firstName, string lastName)
         {
@@ -41,7 +41,7 @@ namespace InstantineAPI.IntegrationTests
                 LastName = lastName
             };
             var constants = _fixture.Services.GetRequiredService<IConstants>();
-            var postResponse = await PostAsync(constants.AdminEmail, $"api/users/manager", new ObjectContent<UserDto>(userDto, _mediaTypeFormatter));
+            var postResponse = await PostAsync(constants.AdminEmail, $"api/administration/manager", new ObjectContent<UserDto>(userDto, _mediaTypeFormatter));
             postResponse.EnsureSuccessStatusCode();
             users = await unitOfWork.Users.GetAll(x => x.Role == Data.UserRole.Manager);
             users.Count().Should().Be(previousCount + 1);
@@ -63,7 +63,7 @@ namespace InstantineAPI.IntegrationTests
                 LastName = lastName
             };
             var constants = _fixture.Services.GetRequiredService<IConstants>();
-            var postResponse = await PostAsync(constants.AdminEmail, $"api/users/members", new ObjectContent<List<UserDto>>(new List<UserDto> { userDto }, _mediaTypeFormatter));
+            var postResponse = await PostAsync(constants.AdminEmail, $"api/administration/members", new ObjectContent<List<UserDto>>(new List<UserDto> { userDto }, _mediaTypeFormatter));
             postResponse.EnsureSuccessStatusCode();
             users = await unitOfWork.Users.GetAll(x => x.Role == Data.UserRole.Member);
             users.Count().Should().Be(previousCount + 1);

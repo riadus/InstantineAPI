@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using InstantineAPI.Core;
 using Microsoft.Extensions.Configuration;
 
@@ -13,10 +14,16 @@ namespace InstantineAPI.IntegrationTests.Mock
             _appsettings = appSettingsSection.Get<AppSettings>();
         }
 
-        public string EncryptionKey => _appsettings.Secret;
+        public string JwtEncryptionKey => _appsettings.Secret;
 
         public string AdminEmail => "mail@admin.io";
 
         public string AdminPwd => "WeakPwd!";
+
+        public string PwdEncryptionKey => "akLz_Q3gQXOhdvvqP0UVz51gfHV+x4GF";
+
+        public byte[] PwdSalt => Encoding.UTF8.GetBytes(PwdEncryptionKey);
+
+        public int PwdIteration => 32;
     }
 }

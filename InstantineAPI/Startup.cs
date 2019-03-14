@@ -142,6 +142,9 @@ namespace InstantineAPI
             services.AddTransient<IPermissionsService, PermissionsService>();
             services.AddTransient<IClock>(x => new Clock(() => DateTime.UtcNow));
             services.AddTransient<IGuid>(x => new GuidGenerator(Guid.NewGuid));
+            services.AddTransient<IPasswordService, PasswordService>();
+            services.AddTransient<IEncryptionService, EncryptionService>();
+            services.AddTransient<IRandomStringGenerator, RandomStringGenerator>();
 
             services.RegisterRepositories();
         }

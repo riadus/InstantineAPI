@@ -44,9 +44,23 @@ namespace InstantineAPI.IntegrationTests
         protected async Task<string> GetToken(string email)
         {
             var unitOfWork = _fixture.Services.GetRequiredService<IUnitOfWork>();
-            var user = await unitOfWork.Users.GetFirst(x => x.Email == email);
+            var encryptionService = _fixture.Services.GetRequiredService<IEncryptionService>();
+            var pwd = encryptionService.StringEncrypt("WeakPwd!");
+            var base64 = Base64Encode($"{email}:{pwd}");
 
-            var base64 = Base64Encode($"{email}:{user.Code}");
+            _fixture.Client.DefaultRequestHeaders.Remove("Authorization");
+            _fixture.Client.DefaultRequestHeaders.Add("Authorization", $"Basic {base64}");
+            var getReponse = await _fixture.Client.GetAsync("api/authentication");
+            var authDto = await getReponse.Content.ReadAsAsync<AuthDto>();
+            return authDto.Token;
+        }
+
+        protected async Task<string> GetToken(string email, string password)
+        {
+            var unitOfWork = _fixture.Services.GetRequiredService<IUnitOfWork>();
+            var encryptionService = _fixture.Services.GetRequiredService<IEncryptionService>();
+            var pwd = encryptionService.StringEncrypt(password);
+            var base64 = Base64Encode($"{email}:{pwd}");
 
             _fixture.Client.DefaultRequestHeaders.Remove("Authorization");
             _fixture.Client.DefaultRequestHeaders.Add("Authorization", $"Basic {base64}");
@@ -94,7 +108,7 @@ namespace InstantineAPI.IntegrationTests
         private static string Base64Encode(string plainText)
         {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-            return System.Convert.ToBase64String(plainTextBytes);
+            return Convert.ToBase64String(plainTextBytes);
         }
     }
 }
