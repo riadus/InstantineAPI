@@ -27,7 +27,7 @@ namespace InstantineAPI.Domain
         public string PwdEncryptionKey => Environment.GetEnvironmentVariable(PwdEncryptionKeyKey);
 
         public string PwdSaltKey => $"{AppSettingsPrefix}_PwdSaltKey";
-        public byte[] PwdSalt => Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable(PwdEncryptionKeyKey));
+        public byte[] PwdSalt => Encoding.UTF8.GetBytes(PwdEncryptionKey);
 
         public string PwdIterationKey => $"{AppSettingsPrefix}_PwdIterationKey";
         public int PwdIteration => int.Parse(Environment.GetEnvironmentVariable(PwdIterationKey));

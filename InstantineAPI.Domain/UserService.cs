@@ -146,5 +146,18 @@ namespace InstantineAPI.Domain
             };
             return SaveUser(admin);
         }
+
+        public async Task ChangeUser(User user, UserChangeRequest userChangeRequest)
+        {
+            user.FirstName = userChangeRequest.ChangeFirstName ? userChangeRequest.FirstName : user.FirstName;
+            user.LastName = userChangeRequest.ChangeLastName ? userChangeRequest.LastName : user.LastName;
+            if (userChangeRequest.ChangePassword)
+            {
+                var (hash, salt) = _passwordService.CreatePasswordHash(userChangeRequest.NewPassword);
+                user.Password = hash;
+                user.PasswordSalt = salt;
+            }
+            await _unitOfWork.Users.Update(user);
+        }
     }
 }

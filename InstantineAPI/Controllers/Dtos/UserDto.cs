@@ -1,10 +1,14 @@
-﻿namespace InstantineAPI.Controllers.Dtos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace InstantineAPI.Controllers.Dtos
 {
     public class UserDto
     {
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        public PasswordDto PasswordDto { get; set; }
     }
 
     public class PhotoDto
@@ -27,5 +31,12 @@
     public class AuthenticationDto
     {
         public string Code { get; set; }
+    }
+
+    public class PasswordDto
+    {
+        [Required(ErrorMessage = "Password is required")]
+        [RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", ErrorMessage = "Password doesn't match the required pattern")]
+        public string Password { get; set; }
     }
 }

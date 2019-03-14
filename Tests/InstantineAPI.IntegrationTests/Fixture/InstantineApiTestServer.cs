@@ -1,5 +1,7 @@
 ﻿using InstantineAPI.Core;
+using InstantineAPI.Core.Database;
 using InstantineAPI.Core.Domain;
+using InstantineAPI.Database;
 using InstantineAPI.IntegrationTests.Mock;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
