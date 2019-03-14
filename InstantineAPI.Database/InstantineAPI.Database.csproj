@@ -27,6 +27,9 @@
     <Compile Remove="Migrations\20190309152345_Initial.cs" />
     <Compile Remove="Migrations\20190309152752_Initial.cs" />
     <Compile Remove="Migrations\20190310195952_Initial.cs" />
+    <Compile Remove="Migrations\20190313093117_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190313093117_Initial.cs" />
+    <Compile Remove="Migrations\InstantineDbContextModelSnapshot.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repositories\" />

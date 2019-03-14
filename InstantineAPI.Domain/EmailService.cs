@@ -8,21 +8,24 @@ namespace InstantineAPI.Domain
     public class EmailService : IEmailService
     {
         private readonly IEmailSender _emailSender;
+        private readonly ICodeGenerator _codeGenrator;
 
-        public EmailService(IEmailSender emailSender)
+        public EmailService(IEmailSender emailSender, ICodeGenerator codeGenrator)
         {
             _emailSender = emailSender;
+            _codeGenrator = codeGenrator;
         }
 
-        public Task SendAccountCreationEmail(User user, byte[] QRCode)
+        public Task SendAccountCreationEmail(User user, string password)
         {
+            var qrCode = _codeGenrator.GenerateImageFromCode(password);
             var email = new EmailObject
             {
                 Recipient = user.Email,
                 Subject = "Instantine pour des photos privées",
-                Text = $"{user.Code}",
+                Text = $"{user.Password}",
                 DisplayName = $"{user.FirstName} {user.LastName}",
-                QRCode = QRCode
+                QRCode = qrCode
             };
 
             return _emailSender.SendEmail(email);

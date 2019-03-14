@@ -14,28 +14,33 @@ namespace InstantineAPI.Domain
         private readonly IClock _clock;
         private readonly IGuid _guid;
         private readonly IConstants _constants;
-        private readonly ICodeGenerator _codeGenerator;
+        private readonly IPasswordService _passwordService;
+        private readonly IEncryptionService _encryptionService;
 
         public UserService(IUnitOfWork unitOfWork,
                            IEmailService emailService,
                            IClock clock,
                            IGuid guid,
                            IConstants constants,
-                           ICodeGenerator codeGenerator)
+                           IPasswordService passwordService,
+                           IEncryptionService encryptionService)
         {
             _unitOfWork = unitOfWork;
             _emailService = emailService;
             _clock = clock;
             _guid = guid;
             _constants = constants;
-            _codeGenerator = codeGenerator;
+            _passwordService = passwordService;
+            _encryptionService = encryptionService;
         }
 
         public async Task RegisterMembers(IEnumerable<User> members)
         {
             foreach (var member in members)
             {
-                member.Code = _codeGenerator.GenerateRandomCode();
+                var (hash, salt) = _passwordService.GenerateRandomPassword();
+                member.Password = hash;
+                member.PasswordSalt = salt;
                 member.Role = UserRole.Member;
                 await SaveUser(member);
             }
@@ -55,8 +60,7 @@ namespace InstantineAPI.Domain
 
         private Task SendEmail(User user)
         {
-            var qrCode = _codeGenerator.GenrateImageFromCode(user.Code);
-            return _emailService.SendAccountCreationEmail(user, qrCode);
+             return _emailService.SendAccountCreationEmail(user, user.Password);
         }
 
         public async Task SendEmailToUsers()
@@ -84,7 +88,7 @@ namespace InstantineAPI.Domain
 
         public async Task AcceptInvitation(string code)
         {
-            var user = await _unitOfWork.Users.GetFirst(x => x.Code == code);
+            var user = await _unitOfWork.Users.GetFirst(x => x.Password == code);
             user.InvitationAccepted = true;
             user.AcceptingDate = _clock.UtcNow;
             await _unitOfWork.Users.Update(user);
@@ -100,32 +104,44 @@ namespace InstantineAPI.Domain
             return _unitOfWork.Users.GetFirst(x => x.Email == email);
         }
 
-        public Task<User> Authenticate(string email, string password)
+        public async Task<User> Authenticate(string email, string password)
         {
-            return _unitOfWork.Users.GetFirst(x => x.Email == email && x.Code == password);   
+            var user = await _unitOfWork.Users.GetFirst(x => x.Email == email);
+            var decryptedPassword = _encryptionService.StringDecrypt(password);
+            if (_passwordService.VerifyPasswordHash(decryptedPassword, user.Password, user.PasswordSalt))
+            {
+                return user;
+            }
+            return null;
         }
 
         public Task RegisterAdmin(User admin)
         {
+            var (hash, salt) = _passwordService.GenerateRandomPassword();
             admin.Role = UserRole.Admin;
-            admin.Code = _codeGenerator.GenerateRandomCode();
+            admin.Password = hash;
+            admin.PasswordSalt = salt;
             return SaveUser(admin);
         }
 
         public Task RegisterManager(User manager)
         {
+            var (hash, salt) = _passwordService.GenerateRandomPassword();
             manager.Role = UserRole.Manager;
-            manager.Code = _codeGenerator.GenerateRandomCode();
+            manager.Password = hash;
+            manager.PasswordSalt = salt;
             return SaveUser(manager);
         }
 
         public Task RegisterDefaultAdmin()
         {
+            var (hash, salt) = _passwordService.CreatePasswordHash(_constants.AdminPwd);
             var admin = new User
             {
                 FirstName = "Admin",
                 Email = _constants.AdminEmail,
-                Code = _constants.AdminPwd,
+                Password = hash,
+                PasswordSalt = salt,
                 Role = UserRole.Admin
             };
             return SaveUser(admin);

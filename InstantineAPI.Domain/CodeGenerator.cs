@@ -9,17 +9,8 @@ namespace InstantineAPI.Domain
 {
     public class CodeGenerator : ICodeGenerator
     {
-        private const int Length = 16;
-        private static Random _random = new Random();
-       
-        public string GenerateRandomCode()
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-#?!+=";
-            return new string(Enumerable.Repeat(chars, Length)
-              .Select(s => s[_random.Next(s.Length)]).ToArray());
-        }
 
-        public byte[] GenrateImageFromCode(string code)
+        public byte[] GenerateImageFromCode(string code)
         {
             BarcodeWriterPixelData writer = new BarcodeWriterPixelData()
             {

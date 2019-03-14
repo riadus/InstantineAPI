@@ -5,6 +5,6 @@ namespace InstantineAPI.Core.Domain
 {
     public interface IEmailService
     {
-        Task SendAccountCreationEmail(User user, byte[] QRCode);
+        Task SendAccountCreationEmail(User user, string password);
     }
 }

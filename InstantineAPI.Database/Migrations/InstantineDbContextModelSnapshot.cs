@@ -161,8 +161,6 @@ namespace InstantineAPI.Database.Migrations
 
                     b.Property<DateTime>("AcceptingDate");
 
-                    b.Property<string>("Code");
-
                     b.Property<DateTime>("CreationDate");
 
                     b.Property<string>("Email");
@@ -175,7 +173,11 @@ namespace InstantineAPI.Database.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("Role");
+                    b.Property<string>("Password");
+
+                    b.Property<string>("PasswordSalt");
+
+                    b.Property<int>("Role");
 
                     b.Property<DateTime>("SendingDate");
 

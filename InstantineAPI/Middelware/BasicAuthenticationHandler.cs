@@ -21,6 +21,7 @@ namespace InstantineAPI.Middelware
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
+            IEncryptionService encryptionService,
             IUserService userService)
             : base(options, logger, encoder, clock)
         {
@@ -39,8 +40,8 @@ namespace InstantineAPI.Middelware
                 var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(':');
                 var email = credentials[0];
-                var code = credentials[1];
-                user = await _userService.Authenticate(email, code);
+                var password = credentials[1];
+                user = await _userService.Authenticate(email, password);
             }
             catch
             {
