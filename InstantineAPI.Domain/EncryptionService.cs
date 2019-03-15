@@ -21,7 +21,7 @@ namespace InstantineAPI.Domain
             var bytesBuff = Encoding.Unicode.GetBytes(inText);
             using (var aes = Aes.Create())
             {
-                var crypto = new Rfc2898DeriveBytes(_constants.PwdEncryptionKey, _constants.PwdSalt, _constants.PwdIteration, HashAlgorithmName.SHA256);
+                var crypto = new Rfc2898DeriveBytes(_constants.PwdEncryptionKey, _constants.PwdSalt, _constants.PwdIteration);
                 aes.Key = crypto.GetBytes(32);
                 aes.IV = crypto.GetBytes(16);
                 using (var mStream = new MemoryStream())
@@ -43,7 +43,7 @@ namespace InstantineAPI.Domain
             var bytesBuff = Convert.FromBase64String(cryptTxt);
             using (var aes = Aes.Create())
             {
-                var crypto = new Rfc2898DeriveBytes(_constants.PwdEncryptionKey, _constants.PwdSalt, _constants.PwdIteration, HashAlgorithmName.SHA256);
+                var crypto = new Rfc2898DeriveBytes(_constants.PwdEncryptionKey, _constants.PwdSalt, _constants.PwdIteration);
                 aes.Key = crypto.GetBytes(32);
                 aes.IV = crypto.GetBytes(16);
                 using (var mStream = new MemoryStream())

@@ -177,6 +177,10 @@ namespace InstantineAPI.Database.Migrations
 
                     b.Property<string>("PasswordSalt");
 
+                    b.Property<string>("RefreshToken");
+
+                    b.Property<string>("RefreshTokenSalt");
+
                     b.Property<int>("Role");
 
                     b.Property<DateTime>("SendingDate");

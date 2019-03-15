@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using InstantineAPI.AutoMapper;
 using InstantineAPI.Core;
@@ -65,16 +66,31 @@ namespace InstantineAPI
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(
-                x =>
+                options =>
             {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettings.Secret)),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidAudience = appSettings.Aud,
+                    ValidIssuer = appSettings.Iss
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        {
+                            context.Response.Headers.Add("Token-Expired", "true");
+                        }
+                        return Task.CompletedTask;
+                    }
                 };
             });
 
@@ -145,6 +161,7 @@ namespace InstantineAPI
             services.AddTransient<IPasswordService, PasswordService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
             services.AddTransient<IRandomStringGenerator, RandomStringGenerator>();
+            services.AddTransient<ITokenService, TokenService>();
 
             services.RegisterRepositories();
         }
