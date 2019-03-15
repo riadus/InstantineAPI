@@ -159,5 +159,18 @@ namespace InstantineAPI.Domain
             }
             await _unitOfWork.Users.Update(user);
         }
+
+        public async Task UpdateRefreshToken(User user, string refreshToken)
+        {
+            var (hash, salt) = _passwordService.CreatePasswordHash(refreshToken);
+            user.RefreshToken = hash;
+            user.RefreshTokenSalt = salt;
+            await _unitOfWork.Users.Update(user);
+        }
+
+        public bool VerifyRefreshToken(User user, string refreshToken)
+        {
+            return _passwordService.VerifyPasswordHash(refreshToken, user.RefreshToken, user.RefreshTokenSalt);
+        }
     }
 }

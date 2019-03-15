@@ -31,5 +31,8 @@ namespace InstantineAPI.Domain
 
         public string PwdIterationKey => $"{AppSettingsPrefix}_PwdIterationKey";
         public int PwdIteration => int.Parse(Environment.GetEnvironmentVariable(PwdIterationKey));
+
+        public string Iss => _appsettings.Iss;
+        public string Aud => _appsettings.Aud;
     }
 }

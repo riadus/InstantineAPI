@@ -18,5 +18,7 @@ namespace InstantineAPI.Core.Domain
         Task<User> GetUserFromEmail(string userId);
         Task<User> Authenticate(string email, string code);
         Task ChangeUser(User user, UserChangeRequest userChangeRequest);
+        Task UpdateRefreshToken(User user, string refreshToken);
+        bool VerifyRefreshToken(User user, string refreshToken);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-namespace InstantineAPI.Core
+﻿namespace InstantineAPI.Core
 {
     public interface IConstants
     {
@@ -9,6 +8,7 @@ namespace InstantineAPI.Core
         int PwdIteration { get; }
         string AdminEmail { get; }
         string AdminPwd { get; }
+        string Iss { get; }
+        string Aud { get; }
     }
-
 }

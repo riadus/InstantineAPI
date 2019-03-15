@@ -25,5 +25,9 @@ namespace InstantineAPI.IntegrationTests.Mock
         public byte[] PwdSalt => Encoding.UTF8.GetBytes(PwdEncryptionKey);
 
         public int PwdIteration => 32;
+
+        public object Iss => _appsettings.Iss;
+
+        public object Aud => _appsettings.Aud;
     }
 }

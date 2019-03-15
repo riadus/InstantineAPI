@@ -14,12 +14,17 @@ namespace InstantineAPI.Data
         public DateTime SendingDate { get; set; }
         public DateTime AcceptingDate { get; set; }
         public string UserId { get; set; }
+        public UserRole Role { get; set; }
+
         [JsonIgnore]
         public string Password { get; set; }
         [JsonIgnore]
         public string PasswordSalt { get; set; }
 
-        public UserRole Role { get; set; }
+        [JsonIgnore]
+        public string RefreshToken { get; set; }
+        [JsonIgnore]
+        public string RefreshTokenSalt { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -29,7 +34,7 @@ namespace InstantineAPI.Data
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Password);
+            return HashCode.Combine(UserId);
         }
     }
 }

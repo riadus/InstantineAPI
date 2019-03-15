@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InstantineAPI.Database.Migrations
 {
     [DbContext(typeof(InstantineDbContext))]
-    [Migration("20190314085325_Initial")]
+    [Migration("20190315145237_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -178,6 +178,10 @@ namespace InstantineAPI.Database.Migrations
                     b.Property<string>("Password");
 
                     b.Property<string>("PasswordSalt");
+
+                    b.Property<string>("RefreshToken");
+
+                    b.Property<string>("RefreshTokenSalt");
 
                     b.Property<int>("Role");
 

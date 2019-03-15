@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using InstantineAPI.Controllers.Dtos;
 using InstantineAPI.Core.Domain;
 using InstantineAPI.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InstantineAPI.Controllers
 {
     [Route("api/user")]
+    [Authorize]
     public class UserController : BaseController
     {
         private readonly IMapper _mapper;
@@ -31,6 +33,12 @@ namespace InstantineAPI.Controllers
             }
             await _userService.ChangeUser(user, _mapper.Map<UserChangeRequest>(userDto));
             return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSelf()
+        {
+            return Ok(await GetUser());
         }
     }
 }
