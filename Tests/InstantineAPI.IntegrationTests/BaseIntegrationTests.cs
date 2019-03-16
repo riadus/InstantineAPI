@@ -72,6 +72,7 @@ namespace InstantineAPI.IntegrationTests
         private class AuthDto
         {
             public string Token { get; set; }
+            public string RefreshToken { get; set; }
         }
 
         private Dictionary<string, HttpClient> _clients = new Dictionary<string, HttpClient>();

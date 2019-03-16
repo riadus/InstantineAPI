@@ -26,8 +26,8 @@ namespace InstantineAPI.IntegrationTests.Mock
 
         public int PwdIteration => 32;
 
-        public object Iss => _appsettings.Iss;
+        public string Iss => _appsettings.Iss;
 
-        public object Aud => _appsettings.Aud;
+        public string Aud => _appsettings.Aud;
     }
 }
