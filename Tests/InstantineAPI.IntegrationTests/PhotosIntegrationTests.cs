@@ -61,5 +61,21 @@ namespace InstantineAPI.IntegrationTests
             var deleteResponse = await DeleteAsync(userEmail, $"api/photo/{photo.PhotoId}?albumId={album.AlbumId}");
             deleteResponse.IsSuccessStatusCode.Should().Be(successStatus);
         }
+
+        [Theory, Order(4)]
+        [InlineData("jan@amsterdam.nl", "$Amsterdam123")]
+        [InlineData("jean@paris.fr", "$Paris123")]
+        [InlineData("giovani@roma.it", "$Roma123")]
+        [InlineData("yahia@algiers.dz", "$Dzaïr123")]
+        public async Task ChangePassword(string email, string password)
+        {
+            var userDto = new UserDto
+            {
+                Email = email,
+                PasswordDto = new PasswordDto { Password = password }
+            };
+            var postResponse = await PostAsync(email, $"api/user", new ObjectContent<UserDto>(userDto, _mediaTypeFormatter));
+            postResponse.EnsureSuccessStatusCode();
+        }
     }
 }

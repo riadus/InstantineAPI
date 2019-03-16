@@ -41,7 +41,7 @@ namespace InstantineAPI.Domain
            {
                 { ClaimTypes.NameIdentifier, user.UserId },
                 { ClaimTypes.Email, user.Email },
-                { ClaimTypes.Role, user.Role },
+                { ClaimTypes.Role, user.Role.ToString() },
                 { "exp" , DateTimeOffset.UtcNow.AddDays(1).ToUnixTimeSeconds()},
                 { "iss" , _constants.Iss},
                 { "aud" , _constants.Aud}
